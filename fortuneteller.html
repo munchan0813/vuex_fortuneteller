@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+    <title>Vue.js学習</title>
+    <script src="https://cdn.jsdelivr.net/npm/vue@2/dist/vue.js"></script>
+    <script src="https://unpkg.com/vuex"></script>
+
+    <div id="app">
+        <p>
+        <button @click="fortune">占う</button>
+        </p>
+        <p>今日の運勢：{{ msg }}</p>
+    </div>
+</head>
+<script>
+    const fortunes = ["ラッキー","最悪","普通","超ラッキー"];
+    const store = new Vuex.Store({
+        state: {
+            msg: "占ってみよう！"　// 初期値
+        },
+        mutations: {
+            // データの変更は必ずmutationsを通る
+            fortune: state => state.msg = fortunes[Math.floor(Math.random()*3)]
+        }
+    })
+
+    new Vue({
+        el: "#app",
+        computed: {
+            msg () {
+                return store.state.msg
+            }
+        },
+        methods: {
+            fortune () {
+                store.commit('fortune')
+            }
+        }
+    })
+
+</script>
+</html>
